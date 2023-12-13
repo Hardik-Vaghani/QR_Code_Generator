@@ -49,10 +49,26 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@id/submit_btn"
+        app:layout_constraintBottom_toTopOf="@id/imageUrl_txt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mobileNo_txt" />
+
+    <EditText
+        android:id="@+id/imageUrl_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Image Url"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@id/submit_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_txt" />
 
     <Button
         android:id="@+id/goToList_btn"
@@ -78,6 +94,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/goToList_btn"
-        app:layout_constraintTop_toBottomOf="@id/email_txt" />
+        app:layout_constraintTop_toBottomOf="@id/imageUrl_txt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

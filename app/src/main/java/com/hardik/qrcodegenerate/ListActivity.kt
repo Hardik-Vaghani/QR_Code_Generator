@@ -1,8 +1,13 @@
 package com.hardik.qrcodegenerate
 
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +23,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 
 
@@ -53,13 +60,12 @@ class ListActivity : AppCompatActivity(), UserListAdapter.OnItemClickListener {
     override fun onItemClick(user: User) {
         val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_layout, null)
         val bottomSheetImage = dialogView.findViewById<ImageView>(R.id.bottomSheetImage)
-
-        val width = 300 // Width of the QR code bitmap
-        val height = 300 // Height of the QR code bitmap
+        val bottomSheetSaveQRCode = dialogView.findViewById<TextView>(R.id.bottomSheetSaveQRCodeTxt)
 
         // Concatenate user details into a single string
-        val userDetailsString = "${user.fullName}\n${user.mobileNo}\n${user.email}"
-        val generatedQRCode = generateQRCode(userDetailsString, width, height)
+        val userDetailsString =
+            "${user.fullName}\n${user.mobileNo}\n${user.email}\n${user.imageUrl}"
+        val generatedQRCode = generateQRCode(userDetailsString)
 
 
         if (generatedQRCode != null) {
@@ -71,7 +77,6 @@ class ListActivity : AppCompatActivity(), UserListAdapter.OnItemClickListener {
                 .into(bottomSheetImage)
         } else {
             // Handle error if QR code generation fails
-            // For example, load a placeholder image
             Glide.with(this)
                 .load(R.drawable.qr_codegif)
                 .placeholder(R.drawable.qr_codegif)
@@ -82,10 +87,19 @@ class ListActivity : AppCompatActivity(), UserListAdapter.OnItemClickListener {
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(dialogView)
         dialog.show()
+
+        //save QR Code in gallery
+        bottomSheetSaveQRCode.setOnClickListener {
+            if (generatedQRCode != null) {
+                saveImage(generatedQRCode)
+            }
+        }
     }
 
     // generateQRCode function
-    private fun generateQRCode(text: String, width: Int, height: Int): Bitmap? {
+    private fun generateQRCode(text: String): Bitmap? {
+        val width = 300 // Width of the QR code bitmap
+        val height = 300 // Height of the QR code bitmap
         try {
             val hints: MutableMap<EncodeHintType, Any> = EnumMap(EncodeHintType::class.java)
             hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
@@ -110,5 +124,44 @@ class ListActivity : AppCompatActivity(), UserListAdapter.OnItemClickListener {
         return null
     }
 
+    private fun getTimeStamp(): String? {
+        val tsLong = System.currentTimeMillis() / 1000
+        return tsLong.toString()
+    }
 
+    private fun saveImage(img: Bitmap): String {
+        var savedImagePath: String? = null
+        val imageFileName = "QR" + getTimeStamp() + ".jpg"
+        val storageDir = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+            "QRGenerator"
+        )
+        var success = true
+        if (!storageDir.exists()) {
+            success = storageDir.mkdirs()
+        }
+        if (success) {
+            val imageFile = File(storageDir, imageFileName)
+            savedImagePath = imageFile.absolutePath
+            try {
+                val fOut = FileOutputStream(imageFile)
+                img.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
+                fOut.close()
+            } catch (ex: java.lang.Exception) {
+                ex.printStackTrace()
+            }
+            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+            val f = File(savedImagePath)
+            val contentUrl = Uri.fromFile(f)
+            mediaScanIntent.data = contentUrl
+            sendBroadcast(mediaScanIntent)
+            Toast.makeText(
+                this,
+                "QR Image Saved in to the: QRGenerator in Gallery",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        return savedImagePath!!
+    }
 }
