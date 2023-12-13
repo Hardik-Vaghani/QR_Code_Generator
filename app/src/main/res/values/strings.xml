@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">QR Code Generate</string>
+    <string name="image_button_description">submit button</string>
+</resources>
