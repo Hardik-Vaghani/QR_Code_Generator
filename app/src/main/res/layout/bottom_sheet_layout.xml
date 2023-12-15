@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/layout_shape"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/bottomSheetImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
         android:adjustViewBounds="true"
+        android:background="@drawable/text_border"
+        android:contentDescription="bottom_sheet_image"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_launcher_foreground" /> <!-- Set a default image or placeholder here -->
+        android:src="@drawable/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/bottomSheetSaveQRCodeTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/text_border"
+        android:text="Save QR Code"
         android:textAlignment="center"
-        android:textSize="20sp"
-        android:text="Save QR Code" />
+        android:textSize="24sp" />
 
 </LinearLayout>

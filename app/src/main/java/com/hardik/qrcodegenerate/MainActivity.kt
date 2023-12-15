@@ -1,11 +1,8 @@
 package com.hardik.qrcodegenerate
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var submit: Button
     private lateinit var goToList: Button
     private lateinit var scan: Button
+    private lateinit var utilRepository: UtilRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         submit = binding.submitBtn
         goToList = binding.goToListBtn
         scan = binding.scanBtn
+        utilRepository = UtilRepository()
 
         checkPermissions()
 
@@ -52,20 +51,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         submit.setOnClickListener {
-            hideKeyboard(it)
+            utilRepository.hideKeyboard(it, context = it.context)
             val enteredFullName = fullName.text.toString().trim()
             val enteredMobileNo = mobileNo.text.toString().trim()
             val enteredEmail = email.text.toString().trim()
             val enteredImageUrl = imageUrl.text.toString().trim()
 
             if (enteredFullName.isNotEmpty() && enteredMobileNo.isNotEmpty() && enteredEmail.isNotEmpty()) {
-                if (isEmailValid(enteredEmail)) {
+                if (utilRepository.isEmailValid(enteredEmail)) {
                     insertUserIntoDatabase(
                         enteredFullName,
                         enteredMobileNo,
                         enteredEmail,
                         enteredImageUrl
                     )
+                    fullName.text.clear()
+                    mobileNo.text.clear()
+                    email.text.clear()
+                    imageUrl.text.clear()
                 } else {
                     Snackbar.make(it, "insert proper email", Snackbar.LENGTH_SHORT).show()
                 }
@@ -78,17 +81,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ScannerActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun isEmailValid(email: String): Boolean {
-        val emailRegex = Regex("^([a-zA-Z0-9_\\-.]+)@([a-zA-Z0-9_\\-]+)\\.([a-zA-Z]{2,5})$")
-        return emailRegex.matches(email)
-    }
-
-    private fun hideKeyboard(view: View) {
-        val inputMethodManager =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun insertUserIntoDatabase(

@@ -9,18 +9,19 @@
 
     <ImageView
         android:id="@+id/imgResult"
-        android:layout_width="312dp"
-        android:layout_height="312dp"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
         android:layout_gravity="center"
         android:layout_margin="8dp"
         android:layout_marginBottom="126dp"
         android:scaleType="fitXY"
+        android:contentDescription="imgResult"
+        android:background="@drawable/text_border"
         app:layout_constraintBottom_toTopOf="@+id/txtResult"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
-    <!--        android:background="@drawable/scanner_background" />-->
 
     <TextView
         android:id="@+id/txtResult"
@@ -29,7 +30,8 @@
         android:layout_margin="8dp"
         android:padding="8dp"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="24sp"
+        android:background="@drawable/text_border"
         app:layout_constraintBottom_toTopOf="@+id/btnScan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="18dp"
-        android:background="@null"
         android:contentDescription="@string/image_button_description"
+        android:background="@drawable/text_border"
         android:text="Scan"
         app:layout_constraintEnd_toStartOf="@id/btnGoToGallery"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,8 +56,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="18dp"
-        android:background="@null"
         android:contentDescription="@string/image_button_description"
+        android:background="@drawable/text_border"
         android:text="Gallery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnScan"
