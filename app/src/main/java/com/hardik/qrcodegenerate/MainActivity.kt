@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var imageUrl: EditText
     private lateinit var submit: Button
     private lateinit var goToList: Button
+    private lateinit var scan: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +42,14 @@ class MainActivity : AppCompatActivity() {
         imageUrl = binding.imageUrlTxt
         submit = binding.submitBtn
         goToList = binding.goToListBtn
+        scan = binding.scanBtn
 
         checkPermissions()
+
+        goToList.setOnClickListener {
+            val intent = Intent(this, ListActivity::class.java)
+            startActivity(intent)
+        }
 
         submit.setOnClickListener {
             hideKeyboard(it)
@@ -66,11 +73,11 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(it, "insert data", Snackbar.LENGTH_SHORT).show()
             }
         }
-        goToList.setOnClickListener {
-            val intent = Intent(this, ListActivity::class.java)
+
+        scan.setOnClickListener {
+            val intent = Intent(this, ScannerActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun isEmailValid(email: String): Boolean {

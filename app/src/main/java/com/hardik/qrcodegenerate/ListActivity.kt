@@ -28,7 +28,7 @@ import java.io.FileOutputStream
 import java.util.*
 
 
-class ListActivity : AppCompatActivity(), UserListAdapter.OnItemClickListener {
+open class ListActivity : AppCompatActivity(), UserListAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var userAdapter: UserListAdapter // Assuming you have created a UserAdapter
 
@@ -63,8 +63,7 @@ class ListActivity : AppCompatActivity(), UserListAdapter.OnItemClickListener {
         val bottomSheetSaveQRCode = dialogView.findViewById<TextView>(R.id.bottomSheetSaveQRCodeTxt)
 
         // Concatenate user details into a single string
-        val userDetailsString =
-            "${user.fullName}\n${user.mobileNo}\n${user.email}\n${user.imageUrl}"
+        val userDetailsString = "${user.fullName}\n${user.mobileNo}\n${user.email}\n${user.imageUrl}"
         val generatedQRCode = generateQRCode(userDetailsString)
 
 
@@ -97,7 +96,7 @@ class ListActivity : AppCompatActivity(), UserListAdapter.OnItemClickListener {
     }
 
     // generateQRCode function
-    private fun generateQRCode(text: String): Bitmap? {
+    fun generateQRCode(text: String): Bitmap? {
         val width = 300 // Width of the QR code bitmap
         val height = 300 // Height of the QR code bitmap
         try {

@@ -20,12 +20,14 @@ object PermissionUtil {
         arrayListOf(
             Manifest.permission.READ_MEDIA_AUDIO,
             Manifest.permission.READ_MEDIA_VIDEO,
-            Manifest.permission.READ_MEDIA_IMAGES
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.CAMERA
         )
     } else {
         arrayListOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
         )
     }
 
