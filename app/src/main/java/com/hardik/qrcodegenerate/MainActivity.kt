@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                     Snackbar.make(it, "insert proper email", Snackbar.LENGTH_SHORT).show()
                 }
             } else {
-                Snackbar.make(it, "insert data", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(it, "input field is empty, please insert data", Snackbar.LENGTH_SHORT).show()
             }
         }
 

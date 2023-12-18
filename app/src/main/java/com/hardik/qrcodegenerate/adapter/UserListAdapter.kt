@@ -27,7 +27,7 @@ class UserListAdapter(private val userList: List<User>, private val onItemClickL
     }
 
     override fun getItemCount(): Int {
-        return userList.size
+        return if(userList.isEmpty()) 0 else userList.size
     }
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{

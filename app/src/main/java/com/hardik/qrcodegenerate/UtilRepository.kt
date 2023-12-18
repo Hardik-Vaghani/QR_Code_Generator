@@ -6,25 +6,27 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.hardware.Camera
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.loader.content.CursorLoader
 import com.bumptech.glide.Glide
 import com.google.zxing.*
+import com.google.zxing.common.BitMatrix
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.qrcode.QRCodeWriter
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
 open class UtilRepository {
+    private val TAG = UtilRepository::class.java.simpleName
 
     fun isEmailValid(email: String): Boolean {
         val emailRegex = Regex("^([a-zA-Z0-9_\\-.]+)@([a-zA-Z0-9_\\-]+)\\.([a-zA-Z]{2,5})$")
@@ -32,7 +34,8 @@ open class UtilRepository {
     }
 
     fun hideKeyboard(view: View, context: Context) {
-        val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -64,13 +67,35 @@ open class UtilRepository {
         return null
     }
 
+    // generateQRCodeMultiFormat function
+    fun generateQRCodeMultiFormat(text: String): Bitmap? {
+        try {
+            val multiFormatWriter = MultiFormatWriter()
+            val bitMatrix: BitMatrix = multiFormatWriter.encode(
+                text, // Replace this with your content
+                BarcodeFormat.QR_CODE,
+                500, // Width of the QR code bitmap
+                500  // Height of the QR code bitmap
+            )
+
+            val barcodeEncoder = BarcodeEncoder()
+            val bitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
+
+            return bitmap
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
     //startQRCodeScanner function
     fun startQRCodeScanner(activity: Activity) {
         val integrator = IntentIntegrator(activity)
-        integrator.setOrientationLocked(true) // Unlock orientation to allow custom orientation
+        integrator.setOrientationLocked(false) // Unlock orientation to allow custom orientation
         integrator.setPrompt("Scan a QR Code")
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        integrator.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
+//        integrator.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
+        integrator.setCameraId(0)
         integrator.setBarcodeImageEnabled(true)
         integrator.setTorchEnabled(false)
         integrator.setBeepEnabled(true)
@@ -80,10 +105,11 @@ open class UtilRepository {
     //startBarCodeScanner function
     fun startBarCodeScanner(activity: Activity) {
         val integrator = IntentIntegrator(activity)
-        integrator.setOrientationLocked(true) // Unlock orientation to allow custom orientation
+        integrator.setOrientationLocked(false) // Unlock orientation to allow custom orientation
         integrator.setPrompt("Scan a Bar Code")
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES)
-        integrator.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
+//        integrator.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
+        integrator.setCameraId(0)
         integrator.setBarcodeImageEnabled(true)
         integrator.setTorchEnabled(false)
         integrator.setBeepEnabled(true)
@@ -160,11 +186,7 @@ open class UtilRepository {
             val contentUrl = Uri.fromFile(f)
             mediaScanIntent.data = contentUrl
             context.sendBroadcast(mediaScanIntent)
-            Toast.makeText(
-                context,
-                "QR Image Saved in to the: QRGenerator in Gallery",
-                Toast.LENGTH_SHORT
-            ).show()
+            Log.i(TAG, "saveImage: QR Image Saved in to the: QRGenerator in Gallery")
         }
 
         return savedImagePath!!

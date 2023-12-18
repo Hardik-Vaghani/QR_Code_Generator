@@ -25,6 +25,7 @@ open class ListActivity : AppCompatActivity(), UserListAdapter.OnItemClickListen
         setContentView(R.layout.activity_list)
 
         recyclerView = findViewById(R.id.recycler_view)
+        recyclerView.hasFixedSize()
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Launch a coroutine to fetch user data asynchronously
@@ -94,6 +95,8 @@ open class ListActivity : AppCompatActivity(), UserListAdapter.OnItemClickListen
             if (generatedQRCode != null) {
                 utilRepository.saveImage(generatedQRCode, it.context)
                 dialog.dismiss()
+//                Toast.makeText(it.context, "QR Image Saved in to the: QRGenerator in Gallery", Toast.LENGTH_SHORT).show()
+//                Handler().postDelayed({dialog.dismiss()}, 500)
             }
         }
     }
