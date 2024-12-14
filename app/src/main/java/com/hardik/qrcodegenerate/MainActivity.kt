@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.java.simpleName
     private lateinit var database: UserDatabase
-
+//hi
     private lateinit var binding: ActivityMainBinding
     private lateinit var fullName: EditText
     private lateinit var mobileNo: EditText
