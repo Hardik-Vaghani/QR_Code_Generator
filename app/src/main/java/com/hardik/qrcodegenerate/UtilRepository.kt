@@ -15,12 +15,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.loader.content.CursorLoader
 import com.bumptech.glide.Glide
-import com.google.zxing.*
-import com.google.zxing.common.BitMatrix
-import com.google.zxing.common.HybridBinarizer
-import com.google.zxing.integration.android.IntentIntegrator
-import com.google.zxing.qrcode.QRCodeWriter
-import com.journeyapps.barcodescanner.BarcodeEncoder
+//import com.google.zxing.*
+//import com.google.zxing.common.BitMatrix
+//import com.google.zxing.common.HybridBinarizer
+//import com.google.zxing.integration.android.IntentIntegrator
+//import com.google.zxing.qrcode.QRCodeWriter
+//import com.journeyapps.barcodescanner.BarcodeEncoder
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -43,77 +43,77 @@ open class UtilRepository {
     fun generateQRCode(text: String): Bitmap? {
         val width = 300 // Width of the QR code bitmap
         val height = 300 // Height of the QR code bitmap
-        try {
-            val hints: MutableMap<EncodeHintType, Any> = EnumMap(EncodeHintType::class.java)
-            hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
-
-            val writer = QRCodeWriter()
-            val bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, width, height, hints)
-
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-            for (x in 0 until width) {
-                for (y in 0 until height) {
-                    bitmap.setPixel(
-                        x,
-                        y,
-                        if (bitMatrix[x, y]) 0xFF000000.toInt() else 0xFFFFFFFF.toInt()
-                    )
-                }
-            }
-            return bitmap
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+//        try {
+//            val hints: MutableMap<EncodeHintType, Any> = EnumMap(EncodeHintType::class.java)
+//            hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
+//
+//            val writer = QRCodeWriter()
+//            val bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, width, height, hints)
+//
+//            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+//            for (x in 0 until width) {
+//                for (y in 0 until height) {
+//                    bitmap.setPixel(
+//                        x,
+//                        y,
+//                        if (bitMatrix[x, y]) 0xFF000000.toInt() else 0xFFFFFFFF.toInt()
+//                    )
+//                }
+//            }
+//            return bitmap
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
         return null
     }
 
     // generateQRCodeMultiFormat function
     fun generateQRCodeMultiFormat(text: String): Bitmap? {
-        try {
-            val multiFormatWriter = MultiFormatWriter()
-            val bitMatrix: BitMatrix = multiFormatWriter.encode(
-                text, // Replace this with your content
-                BarcodeFormat.QR_CODE,
-                500, // Width of the QR code bitmap
-                500  // Height of the QR code bitmap
-            )
-
-            val barcodeEncoder = BarcodeEncoder()
-            val bitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
-
-            return bitmap
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+//        try {
+//            val multiFormatWriter = MultiFormatWriter()
+//            val bitMatrix: BitMatrix = multiFormatWriter.encode(
+//                text, // Replace this with your content
+//                BarcodeFormat.QR_CODE,
+//                500, // Width of the QR code bitmap
+//                500  // Height of the QR code bitmap
+//            )
+//
+//            val barcodeEncoder = BarcodeEncoder()
+//            val bitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
+//
+//            return bitmap
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
         return null
     }
 
     //startQRCodeScanner function
     fun startQRCodeScanner(activity: Activity) {
-        val integrator = IntentIntegrator(activity)
-        integrator.setOrientationLocked(false) // Unlock orientation to allow custom orientation
-        integrator.setPrompt("Scan a QR Code")
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-//        integrator.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
-        integrator.setCameraId(0)
-        integrator.setBarcodeImageEnabled(true)
-        integrator.setTorchEnabled(false)
-        integrator.setBeepEnabled(true)
-        integrator.initiateScan()
+//        val integrator = IntentIntegrator(activity)
+//        integrator.setOrientationLocked(false) // Unlock orientation to allow custom orientation
+//        integrator.setPrompt("Scan a QR Code")
+//        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+////        integrator.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
+//        integrator.setCameraId(0)
+//        integrator.setBarcodeImageEnabled(true)
+//        integrator.setTorchEnabled(false)
+//        integrator.setBeepEnabled(true)
+//        integrator.initiateScan()
     }
 
     //startBarCodeScanner function
     fun startBarCodeScanner(activity: Activity) {
-        val integrator = IntentIntegrator(activity)
-        integrator.setOrientationLocked(false) // Unlock orientation to allow custom orientation
-        integrator.setPrompt("Scan a Bar Code")
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES)
-//        integrator.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
-        integrator.setCameraId(0)
-        integrator.setBarcodeImageEnabled(true)
-        integrator.setTorchEnabled(false)
-        integrator.setBeepEnabled(true)
-        integrator.initiateScan()
+//        val integrator = IntentIntegrator(activity)
+//        integrator.setOrientationLocked(false) // Unlock orientation to allow custom orientation
+//        integrator.setPrompt("Scan a Bar Code")
+//        integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES)
+////        integrator.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
+//        integrator.setCameraId(0)
+//        integrator.setBarcodeImageEnabled(true)
+//        integrator.setTorchEnabled(false)
+//        integrator.setBeepEnabled(true)
+//        integrator.initiateScan()
     }
 
     @SuppressLint("Recycle")
@@ -139,17 +139,17 @@ open class UtilRepository {
         val intArray = IntArray(bitmap.width * bitmap.height)
         bitmap.getPixels(intArray, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
 
-        val source = RGBLuminanceSource(bitmap.width, bitmap.height, intArray)
-        val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
-
-        val reader = MultiFormatReader()
-
-        try {
-            val result = reader.decode(binaryBitmap)
-            return result.text
-        } catch (e: NotFoundException) {
-            e.printStackTrace()
-        }
+//        val source = RGBLuminanceSource(bitmap.width, bitmap.height, intArray)
+//        val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
+//
+//        val reader = MultiFormatReader()
+//
+//        try {
+//            val result = reader.decode(binaryBitmap)
+//            return result.text
+//        } catch (e: NotFoundException) {
+//            e.printStackTrace()
+//        }
         return null
     }
 
